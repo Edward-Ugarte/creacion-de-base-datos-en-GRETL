@@ -1,0 +1,58 @@
+versión de Gretl 2025b
+Sesión actual: 2025-06-21 00:09
+
+# ===============================================================
+# Transformación paso a paso de una variable normal simulada
+#
+# Variables involucradas:
+#   z            → Variable aleatoria con distribución normal estándar 𝒩(0,1),
+#                  generada con la función `normal()` de Gretl.
+#   z_centrada   → Versión de `z` con media exactamente cero (μ = 0):
+#                  z_centrada = z − μ_z
+#   z_esc        → Variable estandarizada con μ = 0 y σ = 1 exactos:
+#                  z_esc = z_centrada / σ_z
+#   x_sim        → Variable final transformada con μ = 20 y σ = 15 exactos:
+#                  x_sim = 20 + 15·z_esc
+# ===============================================================
+? scalar N = 100
+Se ha generado el escalar N = 100
+? nulldata N
+periodicidad: 1, máx. obs: 100
+rango de observaciones: 1 a 100
+? setobs 1 1 --time-series
+Rango de datos completo: 1 - 100 (n = 100)
+
+? series z          = normal()
+Se ha generado la serie z (ID 2)
+? series z_centrada = z - mean(z)
+Se ha generado la serie z_centrada (ID 3)
+? series z_esc      = z_centrada / sd(z_centrada)
+Se ha generado la serie z_esc (ID 4)
+? series x_sim      = 20 + 15 * z_esc
+Se ha generado la serie x_sim (ID 5)
+# Verificación de momentos de x_sim
+? summary x_sim
+
+Estadísticos principales, usando las observaciones 1 - 100
+para la variable 'x_sim' (100 observaciones válidas)
+
+  Media                          20.0000
+  Mediana                        21.2093
+  Mínimo                        -19.8864
+  Máximo                         55.9890
+  Desviación típica              15.0000
+  C.V.                          0.750000
+  Asimetría                    -0.141452
+  Exc. de curtosis             0.0629440
+  Percentil del 5%              -7.73885
+  Percentil del 95%              46.3512
+  Rango intercuartílico          16.9986
+  Observaciones ausentes               0
+
+# Tabla comparativa de momentos: media (μ), desviación estándar (σ), asimetría (γ₁), curtosis (γ₂)
+
+Variable               μ        σ γ₁ (Asim.) γ₂ (Curt.)
+z                -0.0961   1.0577    -0.1415     0.0629
+z_centrada       -0.0000   1.0577    -0.1415     0.0629
+z_esc            -0.0000   1.0000    -0.1415     0.0629
+x_sim            20.0000  15.0000    -0.1415     0.0629
