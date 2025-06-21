@@ -1,0 +1,32 @@
+# ===============================================================
+# Transformación paso a paso de una variable normal simulada
+#
+# Variables involucradas:
+#   z            → Variable aleatoria con distribución normal estándar 𝒩(0,1),
+#                  generada con la función `normal()` de Gretl.
+#   z_centrada   → Versión de `z` con media exactamente cero (μ = 0):
+#                  z_centrada = z − μ_z
+#   z_esc        → Variable estandarizada con μ = 0 y σ = 1 exactos:
+#                  z_esc = z_centrada / σ_z
+#   x_sim        → Variable final transformada con μ = 20 y σ = 15 exactos:
+#                  x_sim = 20 + 15·z_esc
+# ===============================================================
+
+scalar N = 100
+nulldata N
+setobs 1 1 --time-series
+
+series z          = normal()
+series z_centrada = z - mean(z)
+series z_esc      = z_centrada / sd(z_centrada)
+series x_sim      = 20 + 15 * z_esc
+
+# Verificación de momentos de x_sim
+summary x_sim
+
+# Tabla comparativa de momentos: media (μ), desviación estándar (σ), asimetría (γ₁), curtosis (γ₂)
+printf "\n%-15s %8s %8s %10s %10s\n", "Variable", "μ", "σ", "γ₁ (Asim.)", "γ₂ (Curt.)"
+printf "%-15s %8.4f %8.4f %10.4f %10.4f\n", "z",          mean(z),          sd(z),          skewness(z),          kurtosis(z)
+printf "%-15s %8.4f %8.4f %10.4f %10.4f\n", "z_centrada", mean(z_centrada), sd(z_centrada), skewness(z_centrada), kurtosis(z_centrada)
+printf "%-15s %8.4f %8.4f %10.4f %10.4f\n", "z_esc",      mean(z_esc),      sd(z_esc),      skewness(z_esc),      kurtosis(z_esc)
+printf "%-15s %8.4f %8.4f %10.4f %10.4f\n", "x_sim",      mean(x_sim),      sd(x_sim),      skewness(x_sim),      kurtosis(x_sim)
