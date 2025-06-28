@@ -11,8 +11,8 @@ Sesión actual: 2025-06-21 00:09
 #                  z_centrada = z − μ_z
 #   z_esc        → Variable estandarizada con μ = 0 y σ = 1 exactos:
 #                  z_esc = z_centrada / σ_z
-#   x_sim        → Variable final transformada con μ = 20 y σ = 15 exactos:
-#                  x_sim = 20 + 15·z_esc
+#   x_sim        → Variable final transformada con μ = 
+#                  x_sim = 
 # ===============================================================
 ? scalar N = 100
 Se ha generado el escalar N = 100
@@ -22,13 +22,13 @@ rango de observaciones: 1 a 100
 ? setobs 1 1 --time-series
 Rango de datos completo: 1 - 100 (n = 100)
 
-? series z          = normal()
+? series z          = 
 Se ha generado la serie z (ID 2)
 ? series z_centrada = z - mean(z)
 Se ha generado la serie z_centrada (ID 3)
-? series z_esc      = z_centrada / sd(z_centrada)
+? series z_esc      = 
 Se ha generado la serie z_esc (ID 4)
-? series x_sim      = 20 + 15 * z_esc
+? series x_sim      = 
 Se ha generado la serie x_sim (ID 5)
 # Verificación de momentos de x_sim
 ? summary x_sim
